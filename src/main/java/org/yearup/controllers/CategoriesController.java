@@ -45,8 +45,6 @@ public class CategoriesController
     @GetMapping("{categoryId}/products")
     public List<Product> getProductsById(@PathVariable int categoryId)
     {
-        // NOTE: verify this method name against your ProductService.
-        // Common names in this starter are getProductsByCategoryId(...) or search(...).
         return productService.listByCategoryId(categoryId);
     }
 

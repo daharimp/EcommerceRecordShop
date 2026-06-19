@@ -47,7 +47,7 @@ public class CategoriesController
     {
         // NOTE: verify this method name against your ProductService.
         // Common names in this starter are getProductsByCategoryId(...) or search(...).
-        return productService.(categoryId);
+        return productService.listByCategoryId(categoryId);
     }
 
     // POST http://localhost:8080/categories  (ADMIN only)

@@ -45,7 +45,7 @@ public class ProductService
         product.setProductId(0);
         return productRepository.save(product);
     }
-
+    // Bug 2: Create line for setStock, to correct update product stock issue. value will change
     public Product update(int productId, Product product)
     {
         Product existing = productRepository.findById(productId).orElseThrow();
@@ -56,6 +56,7 @@ public class ProductService
         existing.setSubCategory(product.getSubCategory());
         existing.setFeatured(product.isFeatured());
         existing.setImageUrl(product.getImageUrl());
+        existing.setStock(product.getStock());
         return productRepository.save(existing);
     }
 

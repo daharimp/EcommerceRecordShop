@@ -7,6 +7,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.yearup.models.Product;
 import org.yearup.repository.ProductRepository;
+import java.util.Optional;
+import static org.mockito.Mockito.any;
 
 import java.util.List;
 
@@ -99,5 +101,27 @@ class ProductServiceTest
 
         assertEquals(1, results.size(), "Only the matching subcategory should remain");
         assertEquals(rock, results.get(0));
+    }
+
+    // Bug 2 Test
+    @Test
+    void update_persistsStockValue()
+    {
+        // the product already in the "database" has stock = 10
+        Product existing = product(1, 30.00, "rock", false);
+        existing.setStock(10);
+
+        // the incoming update carries a NEW stock value of 99
+        Product incoming = product(1, 35.00, "rock", true);
+        incoming.setStock(99);
+
+        when(productRepository.findById(1)).thenReturn(Optional.of(existing));
+        // make the fake save() return whatever it's handed, like real JPA does
+        when(productRepository.save(any(Product.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        Product result = productService.update(1, incoming);
+
+        assertEquals(99, result.getStock(),
+                "The updated stock value must be persisted, not the original");
     }
 }

@@ -13,6 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+// disregard this message
 // MockitoExtension wires up the @Mock and @InjectMocks fields below.
 // No Spring context and no database are started -- this is a pure unit test
 // of the search logic, which is why it runs in milliseconds.

@@ -50,7 +50,7 @@ public class CategoriesController
 
     // POST http://localhost:8080/categories  (ADMIN only)
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Category> addCategory(@RequestBody Category category)
     {
         Category created = categoryService.create(category);
@@ -59,7 +59,7 @@ public class CategoriesController
 
     // PUT http://localhost:8080/categories/1  (ADMIN only)
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Category updateCategory(@PathVariable int id, @RequestBody Category category)
     {
         return categoryService.update(id, category);
@@ -67,7 +67,7 @@ public class CategoriesController
 
     // DELETE http://localhost:8080/categories/1  (ADMIN only)
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteCategory(@PathVariable int id)
     {
         categoryService.delete(id);

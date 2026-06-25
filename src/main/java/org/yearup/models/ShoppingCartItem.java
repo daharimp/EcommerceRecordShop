@@ -50,6 +50,9 @@ public class ShoppingCartItem
         double subTotal = basePrice * this.quantity;
         double discountAmount = subTotal * discountPercent;
 
-        return subTotal - discountAmount;
+        double lineTotal = subTotal - discountAmount;
+
+        // round to 2 decimal places
+        return Math.round(lineTotal * 100.0) / 100.0;
     }
 }

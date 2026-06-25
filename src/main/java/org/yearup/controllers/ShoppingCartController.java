@@ -1,12 +1,11 @@
 package org.yearup.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.yearup.models.ShoppingCart;
+import org.yearup.models.ShoppingCartItem;
 import org.yearup.models.User;
 import org.yearup.service.ShoppingCartService;
 import org.yearup.service.UserService;
@@ -34,27 +33,38 @@ public class ShoppingCartController
     @GetMapping
     public ShoppingCart getCart(Principal principal)
     {
-        // get the currently logged in username
-        String userName = principal.getName();
-        // find database user by username
-        User user = userService.getByUserName(userName);
-        int userId = user.getId();
-
-        // build and return the cart for this user
-        return shoppingCartService.getByUserId(userId);
+        return shoppingCartService.getByUserId(getUserId(principal));
     }
 
-    // add a POST method to add a product to the cart - the url should be
-    // https://localhost:8080/cart/products/15  (15 is the productId to be added)
-    // return the updated cart with status 201 Created
+    // POST https://localhost:8080/cart/products/15  -> add product 15 (or increment if already present)
+    // returns the updated cart with status 201 Created
+    @PostMapping("products/{productId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ShoppingCart addToCart(@PathVariable int productId, Principal principal)
+    {
+        return shoppingCartService.addProduct(getUserId(principal), productId);
+    }
 
+    // DELETE https://localhost:8080/cart  -> clear the whole cart, return the now-empty cart (200 OK)
+    @DeleteMapping
+    public ShoppingCart clearCart(Principal principal)
+    {
+        return shoppingCartService.clearCart(getUserId(principal));
+    }
 
-    // add a PUT method to update an existing product in the cart - the url should be
-    // https://localhost:8080/cart/products/15  (15 is the productId to be updated)
-    // the BODY should be a ShoppingCartItem - quantity is the only value that will be updated; return the cart (200 OK)
-
-
-    // add a DELETE method to clear all products from the current users cart
-    // https://localhost:8080/cart  - return the (now empty) cart so the front end can refresh it (200 OK)
-
+    // shared helper: turn the logged-in Principal into this user's database id
+    private int getUserId(Principal principal)
+    {
+        String userName = principal.getName();
+        User user = userService.getByUserName(userName);
+        return user.getId();
+    }
+    // PUT https://localhost:8080/cart/products/15  -> set product 15's quantity to the body's value (200 OK)
+    @PutMapping("products/{productId}")
+    public ShoppingCart updateCart(@PathVariable int productId,
+                                   @RequestBody ShoppingCartItem item,
+                                   Principal principal)
+    {
+        return shoppingCartService.updateQuantity(getUserId(principal), productId, item.getQuantity());
+    }
 }

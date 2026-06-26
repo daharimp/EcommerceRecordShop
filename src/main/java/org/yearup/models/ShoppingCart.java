@@ -35,11 +35,12 @@ public class ShoppingCart
     public double getTotal()
     {
         double total = items.values()
-                            .stream()
-                            .mapToDouble(i -> i.getLineTotal())
-                            .sum();
+                .stream()
+                .mapToDouble(i -> i.getLineTotal())
+                .sum();
 
-        return total;
+        // round to 2 decimal places
+        return Math.round(total * 100.0) / 100.0;
     }
 
 }

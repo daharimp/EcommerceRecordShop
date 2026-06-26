@@ -67,4 +67,14 @@ public class ShoppingCartController
     {
         return shoppingCartService.updateQuantity(getUserId(principal), productId, item.getQuantity());
     }
+
+    @DeleteMapping("/products/{productId}")
+    public ShoppingCart removeProduct(@PathVariable int productId, Principal principal)
+    {
+        String userName = principal.getName();
+        User user = userService.getByUserName(userName);
+        int userId = user.getId();
+
+        return shoppingCartService.removeItem(userId, productId);
+    }
 }

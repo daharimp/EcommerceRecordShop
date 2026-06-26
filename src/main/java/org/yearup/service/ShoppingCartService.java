@@ -9,6 +9,7 @@ import org.yearup.models.Product;
 import org.yearup.models.ShoppingCart;
 import org.yearup.models.ShoppingCartItem;
 import org.yearup.repository.ShoppingCartRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -105,6 +106,12 @@ public class ShoppingCartService
         shoppingCartRepository.deleteByUserId(userId);
 
         // return the now-empty cart so the front end can refresh
+        return getByUserId(userId);
+    }
+
+    public ShoppingCart removeItem(int userId, int productId)
+    {
+        shoppingCartRepository.deleteByUserIdAndProductId(userId, productId);
         return getByUserId(userId);
     }
 }

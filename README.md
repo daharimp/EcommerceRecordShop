@@ -84,7 +84,7 @@ the above.
 ![Screenshot 2026-06-26 at 1.05.53 AM.png](screenshots/Screenshot%202026-06-26%20at%201.05.53%E2%80%AFAM.png)
 
 **Shopping cart**
-[Screenshot 2026-06-26 at 12.29.52 AM.png](screenshots/Screenshot%202026-06-26%20at%2012.29.52%E2%80%AFAM.png)
+![Screenshot 2026-06-26 at 12.29.52 AM.png](screenshots/Screenshot%202026-06-26%20at%2012.29.52%E2%80%AFAM.png)
 
 **Checkout response in Insomnia**
 ![Screenshot 2026-06-26 at 1.14.09 AM.png](screenshots/Screenshot%202026-06-26%20at%201.14.09%E2%80%AFAM.png)
